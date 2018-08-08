@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">FirebaseExemplo</string>
+    <string name="edtEmail">Email</string>
+    <string name="edtPassword">Password</string>
+    <string name="btnLogar">Logar</string>
+    <string name="tvAltura">Altura</string>
+    <string name="tvLargura">Largura</string>
+    <string name="tvPeso">Peso</string>
+    <string name="tvCor">Cor</string>
+    <string name="btnBuscaValor">Busca Valor</string>
+    <string name="filter_title_principal">Intent Filter</string>
 </resources>
