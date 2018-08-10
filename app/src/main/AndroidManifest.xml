@@ -22,19 +22,24 @@
         <activity android:name=".activity.Principal">
             <intent-filter android:label="@string/filter_title_principal">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
-                <data android:scheme="http"
+                <data
                     android:host="www.example.com"
-                    android:pathPrefix="/gizmos" />
-                <!-- note that the leading "/" is required for pathPrefix-->
-                <!-- Accepts URIs that begin with "example://gizmos”
+                    android:pathPrefix="/gizmos"
+                    android:scheme="http" />
+                <!-- note that the leading "/" is required for pathPrefix -->
+                <!--
+                Accepts URIs that begin with "example://gizmos”
                 <data android:scheme="example"
                       android:host="gizmos" />
                 -->
             </intent-filter>
         </activity>
+        <activity android:name=".activity.ListaProdutos" />
+        <activity android:name=".activity.AddProduto"></activity>
     </application>
 
 </manifest>

@@ -9,4 +9,11 @@
     <string name="tvCor">Cor</string>
     <string name="btnBuscaValor">Busca Valor</string>
     <string name="filter_title_principal">Intent Filter</string>
+    <string name="menu_add">Adicionar</string>
+    <string name="menu_editar">Editar</string>
+    <string name="menu_sair">Sair</string>
+    <string name="tvFiltroList">Filtro</string>
+    <string name="tvValorList">Valor</string>
+    <string name="tvValor">Valor</string>
+    <string name="btnSalvar">Salvar</string>
 </resources>
