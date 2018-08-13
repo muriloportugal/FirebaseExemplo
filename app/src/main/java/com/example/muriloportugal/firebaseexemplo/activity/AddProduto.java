@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.example.muriloportugal.firebaseexemplo.R;
 import com.example.muriloportugal.firebaseexemplo.dao.ConfiguracaoFirebase;
 import com.example.muriloportugal.firebaseexemplo.entidades.Produtos;
-import com.example.muriloportugal.firebaseexemplo.entidades.ProdutosParcel;
 import com.google.firebase.database.DatabaseReference;
 
 public class AddProduto extends AppCompatActivity {
@@ -25,7 +24,7 @@ public class AddProduto extends AppCompatActivity {
     private EditText edtValorAdd;
     private Button btnSalvar;
     private DatabaseReference firebase;
-    private ProdutosParcel produtosParcel;
+    private Produtos produtos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +39,13 @@ public class AddProduto extends AppCompatActivity {
         btnSalvar = findViewById(R.id.btnSalvar);
 
         Intent intent = getIntent();
-        produtosParcel = intent.getParcelableExtra("Produto Parcel");
-        if (produtosParcel != null){
-            edtAlturaAdd.setText(produtosParcel.getAltura());
-            edtLarguraAdd.setText(produtosParcel.getLargura());
-            edtPesoAdd.setText(produtosParcel.getPeso());
-            edtCorAdd.setText(produtosParcel.getCor());
-            edtValorAdd.setText(String.valueOf(produtosParcel.getValor()));
+        produtos = intent.getParcelableExtra("Produto Parcel");
+        if (produtos != null){
+            edtAlturaAdd.setText(produtos.getAltura());
+            edtLarguraAdd.setText(produtos.getLargura());
+            edtPesoAdd.setText(produtos.getPeso());
+            edtCorAdd.setText(produtos.getCor());
+            edtValorAdd.setText(String.valueOf(produtos.getValor()));
 
             edtAlturaAdd.setEnabled(false);
             edtAlturaAdd.setFocusable(false);

@@ -1,6 +1,9 @@
 package com.example.muriloportugal.firebaseexemplo.entidades;
 
-public class Produtos {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Produtos implements Parcelable {
 
     private String altura;
     private String largura;
@@ -11,6 +14,31 @@ public class Produtos {
 
     public Produtos() {
     }
+
+    protected Produtos(Parcel in) {
+        altura = in.readString();
+        largura = in.readString();
+        peso = in.readString();
+        cor = in.readString();
+        filtro = in.readString();
+        if (in.readByte() == 0) {
+            valor = null;
+        } else {
+            valor = in.readDouble();
+        }
+    }
+
+    public static final Creator<Produtos> CREATOR = new Creator<Produtos>() {
+        @Override
+        public Produtos createFromParcel(Parcel in) {
+            return new Produtos(in);
+        }
+
+        @Override
+        public Produtos[] newArray(int size) {
+            return new Produtos[size];
+        }
+    };
 
     public String getAltura() {
         return altura;
@@ -57,18 +85,28 @@ public class Produtos {
         return valor;
     }
 
-    public String getValorSting() {
-        return String.valueOf(valor);
-    }
-
     public void setValor(Double valor) {
         this.valor = valor;
     }
 
-//    public boolean isEmpty(){
-//        if (!getAltura().equals("") && !getLargura().equals("") && !getPeso().equals("") && !getCor().equals("") && !getValorSting().equals("")){
-//            return false;
-//        }
-//        return true;
-//    }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(altura);
+        dest.writeString(largura);
+        dest.writeString(peso);
+        dest.writeString(cor);
+        dest.writeString(filtro);
+        if (valor == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(valor);
+        }
+    }
+
 }

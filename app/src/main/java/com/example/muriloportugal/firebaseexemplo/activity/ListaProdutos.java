@@ -16,7 +16,6 @@ import com.example.muriloportugal.firebaseexemplo.R;
 import com.example.muriloportugal.firebaseexemplo.adapter.ProdutosAdapter;
 import com.example.muriloportugal.firebaseexemplo.dao.ConfiguracaoFirebase;
 import com.example.muriloportugal.firebaseexemplo.entidades.Produtos;
-import com.example.muriloportugal.firebaseexemplo.entidades.ProdutosParcel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -86,13 +85,14 @@ public class ListaProdutos extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ProdutosParcel produtosParcel = new ProdutosParcel(adapter.getItem(position).getAltura(),
-                                                                    adapter.getItem(position).getLargura(),
-                                                                    adapter.getItem(position).getPeso(),
-                                                                    adapter.getItem(position).getCor(),
-                                                                    adapter.getItem(position).getValor());
+                Produtos produto = new Produtos();
+                       produto.setAltura(adapter.getItem(position).getAltura());
+                       produto.setLargura(adapter.getItem(position).getLargura());
+                       produto.setPeso(adapter.getItem(position).getPeso());
+                       produto.setCor(adapter.getItem(position).getCor());
+                       produto.setValor(adapter.getItem(position).getValor());
                 Intent intent = new Intent(ListaProdutos.this,AddProduto.class);
-                intent.putExtra("Produto Parcel",produtosParcel);
+                intent.putExtra("Produto Parcel",produto);
                 startActivity(intent);
             }
         });

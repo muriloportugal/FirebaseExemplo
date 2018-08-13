@@ -99,23 +99,6 @@ public class Principal extends AppCompatActivity {
                         "_"+spCor.getSelectedItem().toString().replaceAll("[.,]","");
 
                 firebase.child(filtro).addListenerForSingleValueEvent(eventListenerValor);
-//                //DatabaseReference fireb = FirebaseDatabase.getInstance().getReference();
-//                firebase.child(filtro).addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        Produtos produto = dataSnapshot.getValue(Produtos.class);
-//                        if (produto != null){
-//                            tvValorBusca.setText(produto.getValor().toString());
-//                        }else{
-//                            Toast.makeText(Principal.this,"Nenhum valor encontrado!",Toast.LENGTH_SHORT).show();
-//                            tvValorBusca.setText("");
-//                        }
-//                    }
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
 
             }
         });
