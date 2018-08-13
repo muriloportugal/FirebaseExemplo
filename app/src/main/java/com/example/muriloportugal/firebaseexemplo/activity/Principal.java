@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -54,31 +53,33 @@ public class Principal extends AppCompatActivity {
         eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final List<String> listAltura = new ArrayList<String>();
-                final List<String> listLargura = new ArrayList<String>();
-                final List<String> listPeso = new ArrayList<String>();
-                final List<String> listCor = new ArrayList<String>();
+                final List<String> listAltura = new ArrayList<>();
+                final List<String> listLargura = new ArrayList<>();
+                final List<String> listPeso = new ArrayList<>();
+                final List<String> listCor = new ArrayList<>();
 
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     Produtos produtos = data.getValue(Produtos.class);
-                    listAltura.add(produtos.getAltura().toString());
-                    listLargura.add(produtos.getLargura().toString());
-                    listPeso.add(produtos.getPeso().toString());
-                    listCor.add(produtos.getCor().toString());
+                    if (produtos != null){
+                        listAltura.add(produtos.getAltura());
+                        listLargura.add(produtos.getLargura());
+                        listPeso.add(produtos.getPeso());
+                        listCor.add(produtos.getCor());
+                    }
                 }
-                ArrayAdapter<String> alturaAdapter = new ArrayAdapter<String>(Principal.this,android.R.layout.simple_spinner_item,listAltura);
+                ArrayAdapter<String> alturaAdapter = new ArrayAdapter<>(Principal.this,android.R.layout.simple_spinner_item,listAltura);
                 alturaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spAltura.setAdapter(alturaAdapter);
 
-                ArrayAdapter<String> larguraAdapter = new ArrayAdapter<String>(Principal.this,android.R.layout.simple_spinner_item,listLargura);
+                ArrayAdapter<String> larguraAdapter = new ArrayAdapter<>(Principal.this,android.R.layout.simple_spinner_item,listLargura);
                 larguraAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spLargura.setAdapter(larguraAdapter);
 
-                ArrayAdapter<String> pesoAdapter = new ArrayAdapter<String>(Principal.this,android.R.layout.simple_spinner_item,listPeso);
+                ArrayAdapter<String> pesoAdapter = new ArrayAdapter<>(Principal.this,android.R.layout.simple_spinner_item,listPeso);
                 pesoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spPeso.setAdapter(pesoAdapter);
 
-                ArrayAdapter<String> corAdapter = new ArrayAdapter<String>(Principal.this,android.R.layout.simple_spinner_item,listCor);
+                ArrayAdapter<String> corAdapter = new ArrayAdapter<>(Principal.this,android.R.layout.simple_spinner_item,listCor);
                 corAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spCor.setAdapter(corAdapter);
             }
@@ -92,10 +93,10 @@ public class Principal extends AppCompatActivity {
         btnBuscaValor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String filtro = "_"+spAltura.getSelectedItem().toString().replaceAll("[\\.,\\,]","")+
-                        "_"+spLargura.getSelectedItem().toString().replaceAll("[\\.,\\,]","")+
-                        "_"+spPeso.getSelectedItem().toString().replaceAll("[\\.,\\,]","")+
-                        "_"+spCor.getSelectedItem().toString().replaceAll("[\\.,\\,]","");
+                String filtro = "_"+spAltura.getSelectedItem().toString().replaceAll("[.,]","")+
+                        "_"+spLargura.getSelectedItem().toString().replaceAll("[.,]","")+
+                        "_"+spPeso.getSelectedItem().toString().replaceAll("[.,]","")+
+                        "_"+spCor.getSelectedItem().toString().replaceAll("[.,]","");
 
                 firebase.child(filtro).addListenerForSingleValueEvent(eventListenerValor);
 //                //DatabaseReference fireb = FirebaseDatabase.getInstance().getReference();
@@ -124,7 +125,7 @@ public class Principal extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Produtos produto = dataSnapshot.getValue(Produtos.class);
                 if (produto != null){
-                    tvValorBusca.setText(produto.getValor().toString());
+                    tvValorBusca.setText(String.valueOf(produto.getValor()));
                 }else{
                     Toast.makeText(Principal.this,"Nenhum valor encontrado!",Toast.LENGTH_SHORT).show();
                     tvValorBusca.setText("");
@@ -153,12 +154,22 @@ public class Principal extends AppCompatActivity {
         if(id == R.id.menu_sair){
             logoutUsuario();
         }else if(id == R.id.menu_add){
-
+            addProduto();
         }else if(id == R.id.menu_editar){
-
+            editarProduto();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void editarProduto() {
+        Intent intent = new Intent(Principal.this,ListaProdutos.class);
+        startActivity(intent);
+    }
+
+    private void addProduto() {
+        Intent intent = new Intent(Principal.this,AddProduto.class);
+        startActivity(intent);
     }
 
     private void logoutUsuario() {

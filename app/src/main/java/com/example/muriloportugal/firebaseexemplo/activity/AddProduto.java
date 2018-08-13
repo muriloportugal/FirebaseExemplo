@@ -1,8 +1,11 @@
 package com.example.muriloportugal.firebaseexemplo.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -10,6 +13,7 @@ import android.widget.Toast;
 import com.example.muriloportugal.firebaseexemplo.R;
 import com.example.muriloportugal.firebaseexemplo.dao.ConfiguracaoFirebase;
 import com.example.muriloportugal.firebaseexemplo.entidades.Produtos;
+import com.example.muriloportugal.firebaseexemplo.entidades.ProdutosParcel;
 import com.google.firebase.database.DatabaseReference;
 
 public class AddProduto extends AppCompatActivity {
@@ -21,6 +25,7 @@ public class AddProduto extends AppCompatActivity {
     private EditText edtValorAdd;
     private Button btnSalvar;
     private DatabaseReference firebase;
+    private ProdutosParcel produtosParcel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,25 @@ public class AddProduto extends AppCompatActivity {
         edtCorAdd = findViewById(R.id.edtCorAdd);
         edtValorAdd = findViewById(R.id.edtValorAdd);
         btnSalvar = findViewById(R.id.btnSalvar);
+
+        Intent intent = getIntent();
+        produtosParcel = intent.getParcelableExtra("Produto Parcel");
+        if (produtosParcel != null){
+            edtAlturaAdd.setText(produtosParcel.getAltura());
+            edtLarguraAdd.setText(produtosParcel.getLargura());
+            edtPesoAdd.setText(produtosParcel.getPeso());
+            edtCorAdd.setText(produtosParcel.getCor());
+            edtValorAdd.setText(String.valueOf(produtosParcel.getValor()));
+
+            edtAlturaAdd.setEnabled(false);
+            edtAlturaAdd.setFocusable(false);
+            edtLarguraAdd.setEnabled(false);
+            edtLarguraAdd.setFocusable(false);
+            edtPesoAdd.setEnabled(false);
+            edtPesoAdd.setFocusable(false);
+            edtCorAdd.setEnabled(false);
+            edtCorAdd.setFocusable(false);
+        }
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,25 +71,37 @@ public class AddProduto extends AppCompatActivity {
                     produtos.setValor(Double.valueOf(edtValorAdd.getText().toString()));
 
                     salvarProdutos(produtos);
+
+                    edtAlturaAdd.setText("");
+                    edtLarguraAdd.setText("");
+                    edtPesoAdd.setText("");
+                    edtCorAdd.setText("");
+                    edtValorAdd.setText("");
                 }else{
-                    Toast.makeText(AddProduto.this,"Preencher todos os campos.",Toast.LENGTH_SHORT);
+                    Toast.makeText(AddProduto.this,"Preencher todos os campos.",Toast.LENGTH_SHORT).show();
                 }
 
+                closeKeyboard();
             }
         });
 
 
     }
 
-    private boolean verificaPreenchimento() {
-        if (!edtAlturaAdd.getText().toString().equals("") &&
-            !edtLarguraAdd.getText().toString().equals("") &&
-            !edtPesoAdd.getText().toString().equals("") &&
-            !edtCorAdd.getText().toString().equals("") &&
-            !edtValorAdd.getText().toString().equals("")){
-            return true;
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
-        return false;
+    }
+
+    private boolean verificaPreenchimento() {
+        return !edtAlturaAdd.getText().toString().equals("") &&
+                !edtLarguraAdd.getText().toString().equals("") &&
+                !edtPesoAdd.getText().toString().equals("") &&
+                !edtCorAdd.getText().toString().equals("") &&
+                !edtValorAdd.getText().toString().equals("");
     }
 
     private boolean salvarProdutos(Produtos produtos) {

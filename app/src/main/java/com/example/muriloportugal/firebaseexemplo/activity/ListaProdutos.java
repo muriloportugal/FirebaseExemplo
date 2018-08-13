@@ -1,6 +1,7 @@
 package com.example.muriloportugal.firebaseexemplo.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.example.muriloportugal.firebaseexemplo.R;
 import com.example.muriloportugal.firebaseexemplo.adapter.ProdutosAdapter;
 import com.example.muriloportugal.firebaseexemplo.dao.ConfiguracaoFirebase;
 import com.example.muriloportugal.firebaseexemplo.entidades.Produtos;
+import com.example.muriloportugal.firebaseexemplo.entidades.ProdutosParcel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,13 +73,27 @@ public class ListaProdutos extends AppCompatActivity {
                 builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        firebase.child(produtoExcluir.getFiltro().toString()).removeValue();
+                        firebase.child(produtoExcluir.getFiltro()).removeValue();
                         Toast.makeText(ListaProdutos.this,"Item excluido!",Toast.LENGTH_SHORT).show();
                     }
                 });
                 alertDialog = builder.create();
                 alertDialog.show();
                 return true;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ProdutosParcel produtosParcel = new ProdutosParcel(adapter.getItem(position).getAltura(),
+                                                                    adapter.getItem(position).getLargura(),
+                                                                    adapter.getItem(position).getPeso(),
+                                                                    adapter.getItem(position).getCor(),
+                                                                    adapter.getItem(position).getValor());
+                Intent intent = new Intent(ListaProdutos.this,AddProduto.class);
+                intent.putExtra("Produto Parcel",produtosParcel);
+                startActivity(intent);
             }
         });
 

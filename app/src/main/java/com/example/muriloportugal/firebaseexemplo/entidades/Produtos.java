@@ -46,15 +46,11 @@ public class Produtos {
 
     public String getFiltro() {
         filtro = "";
-        if(!getAltura().equals("")) filtro += "_"+getAltura().replaceAll("[\\.,\\,]","");
-        if(!getLargura().equals("")) filtro += "_"+getLargura().replaceAll("[\\.,\\,]","");
-        if(!getPeso().equals("")) filtro += "_"+getPeso().replaceAll("[\\.,\\,]","");
-        if(!getCor().equals("")) filtro += "_"+getCor().replaceAll("[\\.,\\,]","");
+        if(!getAltura().equals("")) filtro += "_"+getAltura().replaceAll("[.,]","");
+        if(!getLargura().equals("")) filtro += "_"+getLargura().replaceAll("[.,]","");
+        if(!getPeso().equals("")) filtro += "_"+getPeso().replaceAll("[.,]","");
+        if(!getCor().equals("")) filtro += "_"+getCor().replaceAll("[.,]","");
         return filtro;
-    }
-
-    private void setFiltro(String filtro) {
-        this.filtro = filtro;
     }
 
     public Double getValor() {
@@ -69,10 +65,10 @@ public class Produtos {
         this.valor = valor;
     }
 
-    public boolean isEmpty(){
-        if (!getAltura().equals("") && !getLargura().equals("") && !getPeso().equals("") && !getCor().equals("") && !getValorSting().equals("")){
-            return false;
-        }
-        return true;
-    }
+//    public boolean isEmpty(){
+//        if (!getAltura().equals("") && !getLargura().equals("") && !getPeso().equals("") && !getCor().equals("") && !getValorSting().equals("")){
+//            return false;
+//        }
+//        return true;
+//    }
 }
